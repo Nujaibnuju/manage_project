@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --ink: #0f0e0d;
+            --paper: #faf8f5;
+            --sage: #4a7c6f;
+            --sage-light: #6ea898;
+            --sage-muted: #c8ddd9;
+            --gold: #b8986a;
+            --gold-light: #d4b98a;
+            --muted: #8a8680;
+            --border: #ddd9d3;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--paper);
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* ── Left panel ── */
+        .left-panel {
+            width: 420px;
+            flex-shrink: 0;
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 80%, rgba(74,124,111,0.35) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 80% 20%, rgba(184,152,106,0.2) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .panel-brand {
+            position: relative;
+            z-index: 1;
+        }
+
+        .panel-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-mark::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .panel-headline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            font-weight: 300;
+            color: #fff;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+        }
+
+        .panel-headline em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .panel-sub {
+            margin-top: 20px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .panel-footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .panel-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 28px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            width: 48px;
+        }
+
+        /* ── Right panel ── */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+            position: relative;
+            background: var(--paper);
+        }
+
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(74,124,111,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .form-card {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+        }
+
+        .form-header {
+            margin-bottom: 40px;
+        }
+
+        .form-eyebrow {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: 10px;
+        }
+
+        .form-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.1;
+        }
+
+        .form-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            margin-top: 14px;
+        }
+
+        /* ── Fields ── */
+        .field-group {
+            margin-bottom: 22px;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .field-wrap {
+            position: relative;
+        }
+
+        .field-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+            transition: color 0.2s;
+        }
+
+        .field-input {
+            width: 100%;
+            height: 50px;
+            padding: 0 16px 0 46px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .field-input::placeholder {
+            color: #bfbcb8;
+        }
+
+        .field-input:focus {
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(74,124,111,0.1);
+        }
+
+        .field-input:focus + .field-border-line {
+            width: 100%;
+        }
+
+        .field-wrap:focus-within .field-icon {
+            color: var(--sage);
+        }
+
+        .field-select {
+            width: 100%;
+            height: 50px;
+            padding: 0 46px 0 46px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--ink);
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+        }
+
+        .field-select:focus {
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(74,124,111,0.1);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--muted);
+        }
+
+        /* ── Row layout ── */
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ── Submit button ── */
+        .btn-register {
+            width: 100%;
+            height: 52px;
+            background: var(--ink);
+            border: none;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #fff;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.2s, transform 0.15s;
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--sage) 0%, var(--sage-light) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .btn-register:hover::before { opacity: 1; }
+        .btn-register:hover { transform: translateY(-1px); }
+        .btn-register:active { transform: translateY(0); }
+
+        .btn-register span, .btn-arrow {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-arrow {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        /* ── Footer ── */
+        .form-foot {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .form-foot a {
+            color: var(--sage);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .form-foot a:hover {
+            border-color: var(--sage);
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-header   { animation: fadeUp 0.5s ease both; }
+        .field-group:nth-child(1) { animation: fadeUp 0.5s 0.08s ease both; }
+        .field-group:nth-child(2) { animation: fadeUp 0.5s 0.14s ease both; }
+        .field-group:nth-child(3) { animation: fadeUp 0.5s 0.20s ease both; }
+        .field-row     { animation: fadeUp 0.5s 0.26s ease both; }
+        .btn-register  { animation: fadeUp 0.5s 0.32s ease both; }
+        .form-foot     { animation: fadeUp 0.5s 0.38s ease both; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .left-panel { display: none; }
+            .right-panel { padding: 32px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Left decorative panel -->
+<div class="left-panel">
+    <div class="panel-brand">
+        <div class="panel-logo">
+            <div class="logo-mark"></div>
+            <div class="logo-text">Vertex</div>
+        </div>
+        <h1 class="panel-headline">
+            Build<br>something<br><em>great</em>.
+        </h1>
+        <p class="panel-sub">Join a community of developers and admins shaping the next generation of tools.</p>
+    </div>
+    <div class="panel-footer">
+        <div class="panel-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Right form panel -->
+<div class="right-panel">
+    <div class="form-card">
+
+        <div class="form-header">
+            <p class="form-eyebrow">Step 1 of 1</p>
+            <h2 class="form-title">Create your account</h2>
+            <div class="form-divider"></div>
+        </div>
+
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="field-group">
+                <label class="field-label" for="username">Username</label>
+                <div class="field-wrap">
+                    <span class="field-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                    </span>
+                    <input id="username" type="text" name="username" class="field-input" placeholder="your_handle" required>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="field-group">
+                <label class="field-label" for="email">Email address</label>
+                <div class="field-wrap">
+                    <span class="field-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>
+                        </svg>
+                    </span>
+                    <input id="email" type="email" name="email" class="field-input" placeholder="you@company.com" required>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="field-group">
+                <label class="field-label" for="password">Password</label>
+                <div class="field-wrap">
+                    <span class="field-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </span>
+                    <input id="password" type="password" name="password" class="field-input" placeholder="Min. 8 characters" required>
+                </div>
+            </div>
+
+            <!-- Role -->
+            <div class="field-group">
+                <label class="field-label" for="role">Role</label>
+                <div class="field-wrap">
+                    <span class="field-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </span>
+                    <select id="role" name="role" class="field-select">
+                        <option value="admin">Admin</option>
+                        <option value="developer">Developer</option>
+                    </select>
+                    <span class="select-arrow">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-register">
+                <span>Create account</span>
+                <div class="btn-arrow">→</div>
+            </button>
+
+        </form>
+
+        <p class="form-foot">
+            Already have an account?
+            <a href="{% url 'get_login' %}">Sign in</a>
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>

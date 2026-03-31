@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body style="background:#f4f6f9;">
+
+<div class="container mt-5">
+    <div class="card p-4 shadow">
+        <h3 class="mb-4">Add Task</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" required></textarea>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="todo">To Do</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="done">Done</option>
+                </select>
+            </div>
+
+            <!-- Project Dropdown -->
+            <div class="mb-3">
+                <label class="form-label">Project</label>
+                <select name="project" class="form-select" required>
+                    <option value="">Select Project</option>
+                    {% for p in projects %}
+                        <option value="{{ p.id }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Assign Developer -->
+            <div class="mb-3">
+                <label class="form-label">Assign To</label>
+                <select name="assigned_to" class="form-select" required>
+                    <option value="">Select Developer</option>
+                    {% for d in developers %}
+                        <option value="{{ d.id }}">{{ d.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Due Date -->
+            <div class="mb-3">
+                <label class="form-label">Due Date</label>
+                <input type="date" name="due_date" class="form-control" required>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary w-100">
+                Add Task
+            </button>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
