@@ -15,6 +15,8 @@ def index(request):
 
 def get_register(request):
 
+    success = ""
+
     if request.method == 'POST':
         username = request.POST.get('username')
         email    = request.POST.get('email')
@@ -30,15 +32,18 @@ def get_register(request):
             username = username,
             email    = email,
             password = password,
-            role     = role
+            role     = role,
+            is_active = False,
         )
 
-        return HttpResponse("Registration successfully completed!")
+        success = "Registration successfully completed!"
 
-    return render(request, 'register.html')
+    return render(request, 'register.html',{'success':success})
 
 
 def get_login(request):
+
+    invalids = ""
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -53,15 +58,16 @@ def get_login(request):
 
                 return redirect('admin_dashboard')
 
-            elif user.role == 'developer':
+            elif user.role == 'student':
                 return redirect('developer_dashboard')
 
         else:
 
-            return HttpResponse("username and password Invalid")    
+            invalids = "username and password Invalid" 
 
 
-    return render(request,'login.html')
+
+    return render(request,'login.html',{'invalids':invalids})
 
 
 def project_add(request):
